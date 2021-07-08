@@ -1,5 +1,6 @@
 package br.com.zupacademy.desafiomercadolivre.usuario;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -17,7 +18,7 @@ public class Usuario {
     private Long id;
     @Column(nullable = false)
     private LocalDateTime instanteCadastro  = LocalDateTime.now();
-    @NotBlank @Email @Column(nullable = false)
+    @NotBlank @Email @Column(nullable = false, unique = true)
     private String login;
     @Size(min = 6) @NotBlank @Column(nullable = false)
     private String senha;
