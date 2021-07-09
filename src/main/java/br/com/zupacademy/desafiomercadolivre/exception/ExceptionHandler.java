@@ -3,6 +3,7 @@ package br.com.zupacademy.desafiomercadolivre.exception;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,5 +19,10 @@ public class ExceptionHandler {
         });
 
         return ResponseEntity.badRequest().body(erros);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<?> handle(ResponseStatusException exception){
+        return ResponseEntity.badRequest().body(exception.getReason());
     }
 }
