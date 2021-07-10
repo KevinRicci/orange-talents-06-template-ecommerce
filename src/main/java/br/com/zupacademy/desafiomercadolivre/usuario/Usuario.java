@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Usuario implements UserDetails {
@@ -86,5 +87,18 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return id.equals(usuario.id) && instanteCadastro.equals(usuario.instanteCadastro) && login.equals(usuario.login) && senha.equals(usuario.senha);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, instanteCadastro, login, senha);
     }
 }

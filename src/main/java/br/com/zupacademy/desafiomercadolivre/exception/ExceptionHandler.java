@@ -20,9 +20,4 @@ public class ExceptionHandler {
 
         return ResponseEntity.badRequest().body(erros);
     }
-
-    @org.springframework.web.bind.annotation.ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<?> handle(ResponseStatusException exception){
-        return ResponseEntity.badRequest().body(exception.getReason());
-    }
 }

@@ -12,8 +12,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Produto {
@@ -33,6 +35,8 @@ public class Produto {
     @NotNull @ManyToOne
     private Categoria categoria;
     private LocalDateTime instante = LocalDateTime.now();
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<Imagem> imagens = new ArrayList<>();
     @ManyToOne
     private Usuario usuario;
 
@@ -46,6 +50,17 @@ public class Produto {
         this.usuario = usuario;
 
         this.caracteristicas.forEach(e -> e.setProduto(this));
+    }
+
+    @Deprecated
+    public Produto(){}
+
+    public void associaImagens(List<String> links) {
+        List<Imagem> imagens = links.stream()
+                .map(link -> new Imagem(this, link))
+                .collect(Collectors.toList());
+
+        this.imagens.addAll(imagens);
     }
 
     public Long getId() {
@@ -68,6 +83,10 @@ public class Produto {
         return Collections.unmodifiableList(caracteristicas);
     }
 
+    public List<Imagem> getImagens(){
+        return Collections.unmodifiableList(imagens);
+    }
+
     public String getDescricao() {
         return descricao;
     }
@@ -82,5 +101,25 @@ public class Produto {
 
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public boolean pertenceAo(Usuario usuario){
+        return this.getUsuario().equals(usuario);
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", valor=" + valor +
+                ", quantidade=" + quantidade +
+                ", caracteristicas=" + caracteristicas +
+                ", descricao='" + descricao + '\'' +
+                ", categoria=" + categoria +
+                ", instante=" + instante +
+                ", imagens=" + imagens +
+                ", usuario=" + usuario +
+                '}';
     }
 }

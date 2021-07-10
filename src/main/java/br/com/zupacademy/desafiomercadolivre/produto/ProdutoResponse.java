@@ -23,6 +23,7 @@ public class ProdutoResponse {
     private String descricao;
     private CategoriaResponse categoriaResponse;
     private LocalDateTime instante;
+    private List<ImagemResponse> imagensResponse;
 
     public ProdutoResponse(Produto produto) {
         this.id = produto.getId();
@@ -33,6 +34,7 @@ public class ProdutoResponse {
         this.descricao = produto.getDescricao();
         this.categoriaResponse = new CategoriaResponse(produto.getCategoria());
         this.instante = produto.getInstante();
+        this.imagensResponse = ImagemResponse.converter(produto.getImagens());
     }
 
     public Long getId() {
@@ -65,5 +67,9 @@ public class ProdutoResponse {
 
     public LocalDateTime getInstante() {
         return instante;
+    }
+
+    public List<ImagemResponse> getImagensResponse() {
+        return imagensResponse;
     }
 }
