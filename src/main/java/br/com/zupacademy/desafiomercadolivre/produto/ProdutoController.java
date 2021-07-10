@@ -52,6 +52,20 @@ public class ProdutoController {
             produtoRepository.saveAndFlush(produto.get());
 
             return ResponseEntity.ok(new ProdutoResponse(produto.get()));
-        }else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "O id do produto não foi encontrado");
+        }else return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/{id}/opinioes")
+    @Transactional
+    public ResponseEntity<ProdutoResponse> adicionaOpiniao(@PathVariable Long id, @RequestBody @Valid OpiniaoRequest opiniaoRequest){
+        Usuario usuario = usuarioRepository.findByLogin("kevinricci@gmail.com").get(); //mockando usuário
+        Optional<Produto> produto = produtoRepository.findById(id);
+        if(produto.isPresent()){
+            Opiniao opiniao = opiniaoRequest.toModel(produto.get(), usuario);
+            produto.get().associaOpiniao(opiniao);
+            produtoRepository.saveAndFlush(produto.get());
+
+            return ResponseEntity.ok(new ProdutoResponse(produto.get()));
+        }else return ResponseEntity.notFound().build();
     }
 }

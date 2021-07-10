@@ -1,14 +1,7 @@
 package br.com.zupacademy.desafiomercadolivre.produto;
 
-import br.com.zupacademy.desafiomercadolivre.categoria.Categoria;
 import br.com.zupacademy.desafiomercadolivre.categoria.CategoriaResponse;
-import br.com.zupacademy.desafiomercadolivre.produto.validacao.TamanhoMinimo;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +17,7 @@ public class ProdutoResponse {
     private CategoriaResponse categoriaResponse;
     private LocalDateTime instante;
     private List<ImagemResponse> imagensResponse;
+    private List<OpiniaoResponse> opinioesResponse;
 
     public ProdutoResponse(Produto produto) {
         this.id = produto.getId();
@@ -35,6 +29,7 @@ public class ProdutoResponse {
         this.categoriaResponse = new CategoriaResponse(produto.getCategoria());
         this.instante = produto.getInstante();
         this.imagensResponse = ImagemResponse.converter(produto.getImagens());
+        this.opinioesResponse = OpiniaoResponse.converter(produto.getOpinioes());
     }
 
     public Long getId() {
@@ -71,5 +66,9 @@ public class ProdutoResponse {
 
     public List<ImagemResponse> getImagensResponse() {
         return imagensResponse;
+    }
+
+    public List<OpiniaoResponse> getOpinioesResponse() {
+        return opinioesResponse;
     }
 }

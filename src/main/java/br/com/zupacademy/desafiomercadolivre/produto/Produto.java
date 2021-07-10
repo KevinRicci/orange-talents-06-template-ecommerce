@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -30,13 +31,15 @@ public class Produto {
     private int quantidade;
     @NotNull @TamanhoMinimo @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Caracteristica> caracteristicas;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<Imagem> imagens = new ArrayList<>();
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<Opiniao> opinioes = new ArrayList<>();
     @NotBlank @Size(max = 1000)
     private String descricao;
     @NotNull @ManyToOne
     private Categoria categoria;
     private LocalDateTime instante = LocalDateTime.now();
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private List<Imagem> imagens = new ArrayList<>();
     @ManyToOne
     private Usuario usuario;
 
@@ -63,6 +66,16 @@ public class Produto {
         this.imagens.addAll(imagens);
     }
 
+    public void associaOpiniao(Opiniao opiniao){
+        if(opiniao.getProduto() != null && opiniao.getProduto().equals(this) && opiniao.getUsuario() != null) {
+            this.opinioes.add(opiniao);
+        }else throw new IllegalArgumentException("Opinião precisa estar associada a um produto e usuário");
+    }
+
+    public boolean pertenceAo(Usuario usuario){
+        return this.getUsuario().equals(usuario);
+    }
+
     public Long getId() {
         return id;
     }
@@ -87,6 +100,8 @@ public class Produto {
         return Collections.unmodifiableList(imagens);
     }
 
+    public List<Opiniao> getOpinioes(){ return Collections.unmodifiableList(opinioes); }
+
     public String getDescricao() {
         return descricao;
     }
@@ -103,9 +118,6 @@ public class Produto {
         return usuario;
     }
 
-    public boolean pertenceAo(Usuario usuario){
-        return this.getUsuario().equals(usuario);
-    }
 
     @Override
     public String toString() {
@@ -121,5 +133,18 @@ public class Produto {
                 ", imagens=" + imagens +
                 ", usuario=" + usuario +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return quantidade == produto.quantidade && id.equals(produto.id) && nome.equals(produto.nome) && valor.equals(produto.valor) && caracteristicas.equals(produto.caracteristicas) && descricao.equals(produto.descricao) && categoria.equals(produto.categoria) && instante.equals(produto.instante) && usuario.equals(produto.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, valor, quantidade, caracteristicas, descricao, categoria, instante, usuario);
     }
 }
