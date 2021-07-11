@@ -1,6 +1,7 @@
 package br.com.zupacademy.desafiomercadolivre.produto;
 
 import br.com.zupacademy.desafiomercadolivre.categoria.CategoriaRepository;
+import br.com.zupacademy.desafiomercadolivre.enviador.NovoEmail;
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
 import br.com.zupacademy.desafiomercadolivre.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class ProdutoController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private Uploader uploaderFake;
+    @Autowired
+    private NovoEmail novoEmail;
 
     @PostMapping
     @Transactional
@@ -64,6 +67,22 @@ public class ProdutoController {
             Opiniao opiniao = opiniaoRequest.toModel(produto.get(), usuario);
             produto.get().associaOpiniao(opiniao);
             produtoRepository.saveAndFlush(produto.get());
+
+            return ResponseEntity.ok(new ProdutoResponse(produto.get()));
+        }else return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/{id}/perguntas")
+    @Transactional
+    public ResponseEntity<ProdutoResponse> adicionaPergunta(@PathVariable Long id, @RequestBody @Valid PerguntaRequest perguntaRequest){
+        Usuario usuario = usuarioRepository.findByLogin("kevinricci@gmail.com").get(); //mockando usuário
+        Optional<Produto> produto = produtoRepository.findById(id);
+        if(produto.isPresent()){
+            Pergunta pergunta = perguntaRequest.toModel(produto.get(), usuario);
+            produto.get().associaPergunta(pergunta);
+            produtoRepository.saveAndFlush(produto.get());
+
+            novoEmail.novaPergunta(pergunta);
 
             return ResponseEntity.ok(new ProdutoResponse(produto.get()));
         }else return ResponseEntity.notFound().build();

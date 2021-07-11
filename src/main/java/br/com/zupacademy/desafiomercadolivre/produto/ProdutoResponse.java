@@ -18,6 +18,7 @@ public class ProdutoResponse {
     private LocalDateTime instante;
     private List<ImagemResponse> imagensResponse;
     private List<OpiniaoResponse> opinioesResponse;
+    private List<PerguntaResponse> perguntasResponse;
 
     public ProdutoResponse(Produto produto) {
         this.id = produto.getId();
@@ -30,6 +31,7 @@ public class ProdutoResponse {
         this.instante = produto.getInstante();
         this.imagensResponse = ImagemResponse.converter(produto.getImagens());
         this.opinioesResponse = OpiniaoResponse.converter(produto.getOpinioes());
+        this.perguntasResponse = PerguntaResponse.converter(produto.getPerguntas());
     }
 
     public Long getId() {
@@ -70,5 +72,9 @@ public class ProdutoResponse {
 
     public List<OpiniaoResponse> getOpinioesResponse() {
         return opinioesResponse;
+    }
+
+    public List<PerguntaResponse> getPerguntasResponse() {
+        return perguntasResponse;
     }
 }

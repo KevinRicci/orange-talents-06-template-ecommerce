@@ -6,6 +6,8 @@ import br.com.zupacademy.desafiomercadolivre.produto.validacao.TamanhoMinimo;
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
 import br.com.zupacademy.desafiomercadolivre.usuario.UsuarioRepository;
 import br.com.zupacademy.desafiomercadolivre.validacao.ExistsId;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -51,7 +53,7 @@ public class ProdutoRequest {
             this.caracteristicasRequests.forEach(cr -> caracteristicas.add(cr.toModel()));
 
             return new Produto(this.nome, this.valor, this.quantidade, caracteristicas, this.descricao, categoria, usuario);
-        }else throw new IllegalArgumentException();
+        }else throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
     @Override

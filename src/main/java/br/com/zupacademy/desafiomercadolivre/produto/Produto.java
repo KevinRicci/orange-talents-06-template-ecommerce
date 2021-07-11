@@ -35,6 +35,8 @@ public class Produto {
     private List<Imagem> imagens = new ArrayList<>();
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<Opiniao> opinioes = new ArrayList<>();
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<Pergunta> perguntas = new ArrayList<>();
     @NotBlank @Size(max = 1000)
     private String descricao;
     @NotNull @ManyToOne
@@ -70,6 +72,12 @@ public class Produto {
         if(opiniao.getProduto() != null && opiniao.getProduto().equals(this) && opiniao.getUsuario() != null) {
             this.opinioes.add(opiniao);
         }else throw new IllegalArgumentException("Opinião precisa estar associada a um produto e usuário");
+    }
+
+    public void associaPergunta(Pergunta pergunta){
+        if(pergunta.getProduto() != null && pergunta.getProduto().equals(this) && pergunta.getUsuario() != null){
+            this.perguntas.add(pergunta);
+        }
     }
 
     public boolean pertenceAo(Usuario usuario){
@@ -118,6 +126,9 @@ public class Produto {
         return usuario;
     }
 
+    public List<Pergunta> getPerguntas() {
+        return perguntas;
+    }
 
     @Override
     public String toString() {
