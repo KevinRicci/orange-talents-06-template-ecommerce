@@ -1,5 +1,6 @@
-package br.com.zupacademy.desafiomercadolivre.produto;
+package br.com.zupacademy.desafiomercadolivre.produto.opiniao;
 
+import br.com.zupacademy.desafiomercadolivre.produto.Produto;
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
 
 import javax.validation.constraints.Max;

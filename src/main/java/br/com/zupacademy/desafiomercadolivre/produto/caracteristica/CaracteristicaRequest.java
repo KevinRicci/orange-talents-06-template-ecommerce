@@ -1,6 +1,5 @@
-package br.com.zupacademy.desafiomercadolivre.produto;
+package br.com.zupacademy.desafiomercadolivre.produto.caracteristica;
 
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
 public class CaracteristicaRequest {

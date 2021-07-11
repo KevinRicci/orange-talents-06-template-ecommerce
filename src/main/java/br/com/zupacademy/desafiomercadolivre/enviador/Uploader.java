@@ -1,4 +1,4 @@
-package br.com.zupacademy.desafiomercadolivre.produto;
+package br.com.zupacademy.desafiomercadolivre.enviador;
 
 import org.springframework.web.multipart.MultipartFile;
 

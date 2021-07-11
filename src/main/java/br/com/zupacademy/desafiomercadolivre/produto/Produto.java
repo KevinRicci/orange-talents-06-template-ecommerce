@@ -1,9 +1,12 @@
 package br.com.zupacademy.desafiomercadolivre.produto;
 
 import br.com.zupacademy.desafiomercadolivre.categoria.Categoria;
+import br.com.zupacademy.desafiomercadolivre.produto.caracteristica.Caracteristica;
+import br.com.zupacademy.desafiomercadolivre.produto.imagem.Imagem;
+import br.com.zupacademy.desafiomercadolivre.produto.opiniao.Opiniao;
+import br.com.zupacademy.desafiomercadolivre.produto.pergunta.Pergunta;
 import br.com.zupacademy.desafiomercadolivre.produto.validacao.TamanhoMinimo;
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
-import br.com.zupacademy.desafiomercadolivre.validacao.ExistsId;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -77,7 +80,20 @@ public class Produto {
     public void associaPergunta(Pergunta pergunta){
         if(pergunta.getProduto() != null && pergunta.getProduto().equals(this) && pergunta.getUsuario() != null){
             this.perguntas.add(pergunta);
+        }else throw new IllegalArgumentException("Pergunta precisa estar associada a um produto e usuário");
+    }
+
+    public int totalNotas(){
+        return opinioes.size();
+    }
+
+    public double mediaNotas(){
+        if(opinioes.size() < 1) return 0.0;
+        double media = 0;
+        for (Opiniao opiniao: opinioes) {
+            media += opiniao.getNota();
         }
+        return media / opinioes.size();
     }
 
     public boolean pertenceAo(Usuario usuario){

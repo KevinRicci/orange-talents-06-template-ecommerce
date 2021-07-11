@@ -1,5 +1,6 @@
-package br.com.zupacademy.desafiomercadolivre.produto;
+package br.com.zupacademy.desafiomercadolivre.produto.imagem;
 
+import br.com.zupacademy.desafiomercadolivre.produto.Produto;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;

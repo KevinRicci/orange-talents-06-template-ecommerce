@@ -1,4 +1,6 @@
-package br.com.zupacademy.desafiomercadolivre.produto;
+package br.com.zupacademy.desafiomercadolivre.produto.caracteristica;
+
+import br.com.zupacademy.desafiomercadolivre.produto.Produto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

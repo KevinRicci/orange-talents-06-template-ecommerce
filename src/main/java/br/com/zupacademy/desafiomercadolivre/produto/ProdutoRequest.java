@@ -2,9 +2,10 @@ package br.com.zupacademy.desafiomercadolivre.produto;
 
 import br.com.zupacademy.desafiomercadolivre.categoria.Categoria;
 import br.com.zupacademy.desafiomercadolivre.categoria.CategoriaRepository;
+import br.com.zupacademy.desafiomercadolivre.produto.caracteristica.Caracteristica;
+import br.com.zupacademy.desafiomercadolivre.produto.caracteristica.CaracteristicaRequest;
 import br.com.zupacademy.desafiomercadolivre.produto.validacao.TamanhoMinimo;
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
-import br.com.zupacademy.desafiomercadolivre.usuario.UsuarioRepository;
 import br.com.zupacademy.desafiomercadolivre.validacao.ExistsId;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

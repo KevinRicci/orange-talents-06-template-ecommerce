@@ -1,7 +1,6 @@
 package br.com.zupacademy.desafiomercadolivre.produto.validacao;
 
-import br.com.zupacademy.desafiomercadolivre.produto.Caracteristica;
-import br.com.zupacademy.desafiomercadolivre.produto.CaracteristicaRequest;
+import br.com.zupacademy.desafiomercadolivre.produto.caracteristica.CaracteristicaRequest;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

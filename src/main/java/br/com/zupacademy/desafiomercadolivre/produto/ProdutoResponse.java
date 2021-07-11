@@ -1,6 +1,10 @@
 package br.com.zupacademy.desafiomercadolivre.produto;
 
 import br.com.zupacademy.desafiomercadolivre.categoria.CategoriaResponse;
+import br.com.zupacademy.desafiomercadolivre.produto.caracteristica.CaracteristicaResponse;
+import br.com.zupacademy.desafiomercadolivre.produto.imagem.ImagemResponse;
+import br.com.zupacademy.desafiomercadolivre.produto.opiniao.OpiniaoResponse;
+import br.com.zupacademy.desafiomercadolivre.produto.pergunta.PerguntaResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,6 +22,8 @@ public class ProdutoResponse {
     private LocalDateTime instante;
     private List<ImagemResponse> imagensResponse;
     private List<OpiniaoResponse> opinioesResponse;
+    private int totalNotas;
+    private double mediaNotas;
     private List<PerguntaResponse> perguntasResponse;
 
     public ProdutoResponse(Produto produto) {
@@ -32,6 +38,8 @@ public class ProdutoResponse {
         this.imagensResponse = ImagemResponse.converter(produto.getImagens());
         this.opinioesResponse = OpiniaoResponse.converter(produto.getOpinioes());
         this.perguntasResponse = PerguntaResponse.converter(produto.getPerguntas());
+        this.totalNotas = produto.totalNotas();
+        this.mediaNotas = produto.mediaNotas();
     }
 
     public Long getId() {
@@ -76,5 +84,13 @@ public class ProdutoResponse {
 
     public List<PerguntaResponse> getPerguntasResponse() {
         return perguntasResponse;
+    }
+
+    public int getTotalNotas() {
+        return totalNotas;
+    }
+
+    public double getMediaNotas() {
+        return mediaNotas;
     }
 }

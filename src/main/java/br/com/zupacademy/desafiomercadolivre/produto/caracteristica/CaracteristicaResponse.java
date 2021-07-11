@@ -1,8 +1,5 @@
-package br.com.zupacademy.desafiomercadolivre.produto;
+package br.com.zupacademy.desafiomercadolivre.produto.caracteristica;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 

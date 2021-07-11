@@ -1,21 +1,20 @@
 package br.com.zupacademy.desafiomercadolivre.produto;
 
 import br.com.zupacademy.desafiomercadolivre.categoria.CategoriaRepository;
-import br.com.zupacademy.desafiomercadolivre.enviador.NovoEmail;
+
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
 import br.com.zupacademy.desafiomercadolivre.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/produtos")
@@ -27,10 +26,6 @@ public class ProdutoController {
     private CategoriaRepository categoriaRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
-    @Autowired
-    private Uploader uploaderFake;
-    @Autowired
-    private NovoEmail novoEmail;
 
     @PostMapping
     @Transactional
@@ -43,48 +38,13 @@ public class ProdutoController {
         return ResponseEntity.created(uri).body(new ProdutoResponse(produto));
     }
 
-    @PostMapping(value = "/{id}/imagens")
-    @Transactional
-    public ResponseEntity<ProdutoResponse> adicionaImagens(@PathVariable("id") Long id, @Valid ImagemRequest request) {
-        Usuario usuario = usuarioRepository.findByLogin("kevinricci@gmail.com").get(); //mockando usuário
-        Optional<Produto> produto = produtoRepository.findById(id);
-        if(produto.isPresent()) {
-            if(!produto.get().pertenceAo(usuario)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-            List<String> links = uploaderFake.envia(request.getImagens());
-            produto.get().associaImagens(links);
-            produtoRepository.saveAndFlush(produto.get());
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoResponse> buscaPorId(@PathVariable Long id){
+        Optional<Produto> possivelProduto = produtoRepository.findById(id);
+        if(possivelProduto.isPresent()){
 
-            return ResponseEntity.ok(new ProdutoResponse(produto.get()));
-        }else return ResponseEntity.notFound().build();
-    }
+            return ResponseEntity.ok(new ProdutoResponse(possivelProduto.get()));
 
-    @PostMapping("/{id}/opinioes")
-    @Transactional
-    public ResponseEntity<ProdutoResponse> adicionaOpiniao(@PathVariable Long id, @RequestBody @Valid OpiniaoRequest opiniaoRequest){
-        Usuario usuario = usuarioRepository.findByLogin("kevinricci@gmail.com").get(); //mockando usuário
-        Optional<Produto> produto = produtoRepository.findById(id);
-        if(produto.isPresent()){
-            Opiniao opiniao = opiniaoRequest.toModel(produto.get(), usuario);
-            produto.get().associaOpiniao(opiniao);
-            produtoRepository.saveAndFlush(produto.get());
-
-            return ResponseEntity.ok(new ProdutoResponse(produto.get()));
-        }else return ResponseEntity.notFound().build();
-    }
-
-    @PostMapping("/{id}/perguntas")
-    @Transactional
-    public ResponseEntity<ProdutoResponse> adicionaPergunta(@PathVariable Long id, @RequestBody @Valid PerguntaRequest perguntaRequest){
-        Usuario usuario = usuarioRepository.findByLogin("kevinricci@gmail.com").get(); //mockando usuário
-        Optional<Produto> produto = produtoRepository.findById(id);
-        if(produto.isPresent()){
-            Pergunta pergunta = perguntaRequest.toModel(produto.get(), usuario);
-            produto.get().associaPergunta(pergunta);
-            produtoRepository.saveAndFlush(produto.get());
-
-            novoEmail.novaPergunta(pergunta);
-
-            return ResponseEntity.ok(new ProdutoResponse(produto.get()));
         }else return ResponseEntity.notFound().build();
     }
 }

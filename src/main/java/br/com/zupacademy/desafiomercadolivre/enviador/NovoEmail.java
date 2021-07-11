@@ -1,6 +1,6 @@
 package br.com.zupacademy.desafiomercadolivre.enviador;
 
-import br.com.zupacademy.desafiomercadolivre.produto.Pergunta;
+import br.com.zupacademy.desafiomercadolivre.produto.pergunta.Pergunta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

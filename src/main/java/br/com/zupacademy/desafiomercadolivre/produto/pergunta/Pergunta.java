@@ -1,9 +1,12 @@
-package br.com.zupacademy.desafiomercadolivre.produto;
+package br.com.zupacademy.desafiomercadolivre.produto.pergunta;
 
+import br.com.zupacademy.desafiomercadolivre.produto.Produto;
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 public class Pergunta {
@@ -16,6 +19,8 @@ public class Pergunta {
     private Produto produto;
     @ManyToOne
     private Usuario usuario;
+    @NotNull
+    private LocalDateTime instante = LocalDateTime.now();
 
     public Pergunta(String titulo, Produto produto, Usuario usuario) {
         this.titulo = titulo;
@@ -40,5 +45,9 @@ public class Pergunta {
 
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public LocalDateTime getInstante() {
+        return instante;
     }
 }

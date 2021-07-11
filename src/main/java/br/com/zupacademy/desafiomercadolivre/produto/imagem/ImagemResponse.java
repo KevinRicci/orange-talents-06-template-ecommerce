@@ -1,4 +1,4 @@
-package br.com.zupacademy.desafiomercadolivre.produto;
+package br.com.zupacademy.desafiomercadolivre.produto.imagem;
 
 import java.util.List;
 import java.util.stream.Collectors;
