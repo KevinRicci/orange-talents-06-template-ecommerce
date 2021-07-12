@@ -7,6 +7,7 @@ import br.com.zupacademy.desafiomercadolivre.produto.opiniao.Opiniao;
 import br.com.zupacademy.desafiomercadolivre.produto.pergunta.Pergunta;
 import br.com.zupacademy.desafiomercadolivre.produto.validacao.TamanhoMinimo;
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
+import io.jsonwebtoken.lang.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -94,6 +95,14 @@ public class Produto {
             media += opiniao.getNota();
         }
         return media / opinioes.size();
+    }
+
+    public boolean abateEstoque(int quantidadeProduto){
+        Assert.isTrue(quantidadeProduto > 0, "A quantidade a ser abatida do estoque deve ser maior que zero:"+quantidadeProduto);
+        if(this.quantidade >= quantidadeProduto){
+            this.quantidade -= quantidadeProduto;
+            return true;
+        }else return false;
     }
 
     public boolean pertenceAo(Usuario usuario){
