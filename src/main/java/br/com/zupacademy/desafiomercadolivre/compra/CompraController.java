@@ -1,5 +1,6 @@
 package br.com.zupacademy.desafiomercadolivre.compra;
 
+import br.com.zupacademy.desafiomercadolivre.enviador.NovoEmail;
 import br.com.zupacademy.desafiomercadolivre.produto.Produto;
 import br.com.zupacademy.desafiomercadolivre.produto.ProdutoRepository;
 import br.com.zupacademy.desafiomercadolivre.usuario.Usuario;
@@ -23,6 +24,8 @@ public class CompraController {
     private ProdutoRepository produtoRepository;
     @Autowired
     private CompraRepository compraRepository;
+    @Autowired
+    private NovoEmail novoEmail;
 
     @PostMapping
     @Transactional
@@ -34,6 +37,7 @@ public class CompraController {
         if(estoqueAbatido){
             Compra compra = compraRequest.toModel(produtoCompra, comprador);
             compraRepository.save(compra);
+            novoEmail.novaCompra(produtoCompra.getUsuario(), compra);
             if(compraRequest.getGatewayPagamento().equals("PAGSEGURO")){
                 String urlRetornoPagSeguro = uri.path("/retorno-pagseguro/{id}").buildAndExpand(compra.getId()).toString();
 
