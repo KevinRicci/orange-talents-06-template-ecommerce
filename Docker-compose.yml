@@ -1,0 +1,24 @@
+version: "3"
+services:
+  web:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    depends_on:
+      - "db"
+    ports:
+      - 8080:8080
+    container_name: "web"
+    networks:
+      - minha-rede
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: hallereandreia
+      MYSQL_DATABASE: desafio_mercado_livre
+    container_name: "db"
+    networks:
+      - minha-rede
+networks:
+  minha-rede:
+    driver: bridge

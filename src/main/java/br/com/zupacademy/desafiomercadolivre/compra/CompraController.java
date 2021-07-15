@@ -38,12 +38,12 @@ public class CompraController {
             Compra compra = compraRequest.toModel(produtoCompra, comprador);
             compraRepository.save(compra);
             novoEmail.novaCompra(produtoCompra.getUsuario(), compra);
-            if(compraRequest.getGatewayPagamento().equals("PAGSEGURO")){
+            if(compraRequest.getGatewayPagamento().toString().equals("PAGSEGURO")){
                 String urlRetornoPagSeguro = uri.path("/retorno-pagseguro/{id}").buildAndExpand(compra.getId()).toString();
 
                 return ResponseEntity.ok("pagseguro.com/"+compra.getId()+"?redirectUrl="+urlRetornoPagSeguro);
             }
-            if(compraRequest.getGatewayPagamento().equals("PAYPAL")){
+            if(compraRequest.getGatewayPagamento().toString().equals("PAYPAL")){
                 String urlRetornoPaypal = uri.path("/retorno-paypal/{id}").buildAndExpand(compra.getId()).toString();
 
                 return ResponseEntity.ok("paypal.com/"+compra.getId()+"?redirectUrl="+urlRetornoPaypal);
